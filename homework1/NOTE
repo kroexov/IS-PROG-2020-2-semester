@@ -1,0 +1,52 @@
+Cloning https://github.com/kroexov/IS-2020-prog-2-sem/homework1
+Cloning finished
+It's OK
+geometry.cpp: In member function 'Point& Point::operator=(const Point&)':
+geometry.cpp:28:5: warning: no return statement in function returning non-void [-Wreturn-type]
+   27 |         y = point.y;
+  +++ |+        return *this;
+   28 |     }
+      |     ^
+geometry.cpp: In member function 'PolygonalChain& PolygonalChain::operator=(const PolygonalChain&)':
+geometry.cpp:61:5: warning: no return statement in function returning non-void [-Wreturn-type]
+   60 |         }
+  +++ |+        return *this;
+   61 |     }
+      |     ^
+geometry.cpp: In member function 'ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain&)':
+geometry.cpp:111:5: warning: no return statement in function returning non-void [-Wreturn-type]
+  110 |         }
+  +++ |+        return *this;
+  111 |     }
+      |     ^
+geometry.cpp: In member function 'Polygon& Polygon::operator=(const Polygon&)':
+geometry.cpp:154:5: warning: no return statement in function returning non-void [-Wreturn-type]
+  153 |         }
+  +++ |+        return *this;
+  154 |     }
+      |     ^
+geometry.cpp: In member function 'RegularPolygon& RegularPolygon::operator=(const RegularPolygon&)':
+geometry.cpp:208:5: warning: no return statement in function returning non-void [-Wreturn-type]
+  207 |         }
+  +++ |+        return *this;
+  208 |     }
+      |     ^
+geometry.cpp: In member function 'Triangle& Triangle::operator=(const Triangle&)':
+geometry.cpp:243:5: warning: no return statement in function returning non-void [-Wreturn-type]
+  242 |         }
+  +++ |+        return *this;
+  243 |     }
+      |     ^
+geometry.cpp: In member function 'Trapezoid& Trapezoid::operator=(const Trapezoid&)':
+geometry.cpp:321:5: warning: no return statement in function returning non-void [-Wreturn-type]
+  320 |         }
+  +++ |+        return *this;
+  321 |     }
+      |     ^
+main.cpp: In function 'void PolygonsCheck()':
+main.cpp:47:12: warning: deleting object of polymorphic class type 'Trapezoid' which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   47 |     delete trap;
+      |            ^~~~
+
+
+
