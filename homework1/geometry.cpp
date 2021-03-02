@@ -4,6 +4,8 @@
 #include <math.h>
 #include <cassert>
 #define vec std::vector<Point>
+#define pi 3.1415926535
+
 
     Point::Point() //конструктор со значениями по умолчанию
     {
@@ -11,10 +13,10 @@
         y=0;
     }
 
-    Point::Point(double x, double y) //конструктор с заданными значениями
+    Point::Point(double x1, double y1) //конструктор с заданными значениями
     {
-        this->x=x;
-        this->y=y;
+        x=x1;
+        y=y1;
     }
 
     Point::Point(const Point &point1) //конструктор копирования
@@ -23,8 +25,11 @@
         y=point1.y;
     }
     Point& Point::operator=(const Point &point){ //оператор присваивания
-        x = point.x;
-        y = point.y;
+        if (this!= &point) {
+            x = point.x;
+            y = point.y;
+        }
+        return *this;
     }
     void Point::get()
     {
@@ -36,10 +41,10 @@
     double Point::getY() const {
         return y;
     }
-    void Point::set(double x, double y)
+    void Point::set(double x1, double y1)
     {
-        this->x=x;
-        this->y=y;
+        x=x1;
+        y=y1;
     }
 
 
@@ -53,11 +58,14 @@ PolygonalChain::PolygonalChain(int n,Point* fig) //конструктор
     }
 
 PolygonalChain&PolygonalChain:: operator=(const PolygonalChain &chain){ //оператор присваивания
+    if (this!= &chain) {
         points.clear();
-        number_of_points=chain.number_of_points;
-        for (int i=0;i<chain.number_of_points;i++){
+        number_of_points = chain.number_of_points;
+        for (int i = 0; i < chain.number_of_points; i++) {
             points.push_back(chain.points[i]);
         }
+    }
+    return *this;
     }
 
 PolygonalChain::PolygonalChain(const PolygonalChain &chain) //конструктор копирования
@@ -88,10 +96,14 @@ PolygonalChain::PolygonalChain(const PolygonalChain &chain) //конструкт
     float PolygonalChain::perimeter() const {
         float per=0;
         for (int i=1;i<number_of_points;i++){
-            per=per+sqrt(pow((points[i-1].getX()-points[i].getX()),2)+pow((points[i-1].getY()-points[i].getY()),2));
+            per=per+hypotenuse(points[i-1],points[i]);
         }
         return per;
     }
+
+float PolygonalChain::hypotenuse(Point first, Point second) const {
+    return sqrt(pow((first.getX()-second.getX()),2)+pow((first.getY()-second.getY()),2));
+}
 
 
 ClosedPolygonalChain::ClosedPolygonalChain(int n,Point* fig):PolygonalChain(n,fig) //конструктор
@@ -103,11 +115,14 @@ ClosedPolygonalChain::ClosedPolygonalChain(int n,Point* fig):PolygonalChain(n,fi
     }
 
 ClosedPolygonalChain&ClosedPolygonalChain:: operator=(const ClosedPolygonalChain &chain){ //оператор присваивания
+    if (this!= &chain) {
         points.clear();
-        number_of_points=chain.number_of_points;
-        for (int i=0;i<chain.number_of_points;i++){
+        number_of_points = chain.number_of_points;
+        for (int i = 0; i < chain.number_of_points; i++) {
             points.push_back(chain.points[i]);
         }
+    }
+        return *this;
     }
 
 ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):PolygonalChain(chain) //конструктор копирования
@@ -123,21 +138,22 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):Po
     float ClosedPolygonalChain::perimeter() const {
         float per=0;
         for (int i=1;i<number_of_points;i++){
-            per=per+sqrt(pow((points[i-1].getX()-points[i].getX()),2)+pow((points[i-1].getY()-points[i].getY()),2));
+            per=per+hypotenuse(points[i-1],points[i]);
         }
-        per=per+sqrt(pow((points[0].getX()-points[number_of_points-1].getX()),2)+pow((points[0].getY()-points[number_of_points-1].getY()),2));
+        per=per+hypotenuse(points[0],points[number_of_points-1]);
         return per;
     }
 
 
-Polygon::Polygon(int n,Point* fig){
+Polygon::Polygon(int n,Point* fig):ClosedPolygonalChain(n,fig){
         number_of_points=n;
         for (int i=0;i<n;i++){
             points.push_back(fig[i]);
         }
     }
 
-Polygon::Polygon(const Polygon &fig){ //копирование
+
+Polygon::Polygon(const Polygon &fig):ClosedPolygonalChain(fig){ //копирование
         points.clear();
         number_of_points=fig.number_of_points;
         for (int i=0;i<fig.number_of_points;i++){
@@ -146,11 +162,14 @@ Polygon::Polygon(const Polygon &fig){ //копирование
     }
 
 Polygon&Polygon:: operator=(const Polygon &fig){ //присваивание
+    if (this!= &fig) {
         points.clear();
-        number_of_points=fig.number_of_points;
-        for (int i=0;i<fig.number_of_points;i++){
+        number_of_points = fig.number_of_points;
+        for (int i = 0; i < fig.number_of_points; i++) {
             points.push_back(fig.points[i]);
         }
+    }
+    return *this;
     }
 
     void Polygon::get()
@@ -168,9 +187,9 @@ Polygon&Polygon:: operator=(const Polygon &fig){ //присваивание
     float Polygon::perimeter(){
         float per=0;
         for (int i=1;i<number_of_points;i++){
-            per=per+abs(sqrt(pow((points[i-1].getX()-points[i].getX()),2)+pow((points[i-1].getY()-points[i].getY()),2)));
+            per=per+hypotenuse(points[i-1],points[i]);
         }
-        per=per+sqrt(pow((points[0].getX()-points[number_of_points-1].getX()),2)+pow((points[0].getY()-points[number_of_points-1].getY()),2));
+        per=per+hypotenuse(points[0],points[number_of_points-1]);
         return per;
     }
 
@@ -182,6 +201,12 @@ Polygon&Polygon:: operator=(const Polygon &fig){ //присваивание
         sq+=points[number_of_points-1].getX()*points[0].getY()-points[number_of_points-1].getY()*points[0].getX();
         return abs(sq/2);
     }
+
+float Polygon::hypotenuse(Point first, Point second) const {
+    return sqrt(pow((first.getX()-second.getX()),2)+pow((first.getY()-second.getY()),2));
+}
+
+Polygon::~Polygon() = default;
 
 
 RegularPolygon::RegularPolygon(int n,Point* fig):Polygon(n,fig){
@@ -200,25 +225,40 @@ RegularPolygon::RegularPolygon(const RegularPolygon &fig):Polygon(fig){ //коп
     }
 
 RegularPolygon&RegularPolygon:: operator=(const RegularPolygon &fig){ //присваивание
+    if (this!= &fig) {
         points.clear();
-        number_of_points=fig.number_of_points;
-        for (int i=0;i<fig.number_of_points;i++){
+        number_of_points = fig.number_of_points;
+        for (int i = 0; i < fig.number_of_points; i++) {
             points.push_back(fig.points[i]);
         }
+    }
+    return *this;
     }
 
 
     bool RegularPolygon::regular(){
-        float first=abs(sqrt(pow((points[0].getX()-points[1].getX()),2)+pow((points[0].getY()-points[1].getY()),2)));
+        float first=abs(hypotenuse(points[0],points[1]));
         for (int i=2;i<number_of_points;i++) {
-            if (abs(sqrt(pow((points[i-1].getX()-points[i].getX()),2)+pow((points[i-1].getY()-points[i].getY()),2)))!=first)
+            if (abs(hypotenuse(points[i-1],points[i]))!=first)
                 return false;
         }
-        if (abs(sqrt(pow((points[0].getX()-points[number_of_points-1].getX()),2)+pow((points[0].getY()-points[number_of_points-1].getY()),2)))!=first)
+        if (abs(hypotenuse(points[number_of_points-1],points[0]))!=first)
             return false;
         return true;
     }
 
+float RegularPolygon::perimeter(){
+    float per=0;
+    per=per+hypotenuse(points[number_of_points-1],points[0]);
+    per = per*float(number_of_points);
+    return per;
+}
+
+float RegularPolygon::area() {
+    float a=hypotenuse(points[number_of_points-1],points[0]);
+    float sq=number_of_points*a*a/(4*tan(pi/number_of_points));
+    return sq;
+}
 
 
 Triangle::Triangle(int n,Point* fig):Polygon(n,fig){
@@ -236,19 +276,22 @@ Triangle::Triangle(const Triangle &fig):Polygon(fig){ //копирование
     }
 
 Triangle&Triangle:: operator=(const Triangle &fig){ //присваивание
+    if (this!= &fig) {
         points.clear();
-        for (int i=0;i<fig.number_of_points;i++){
+        for (int i = 0; i < fig.number_of_points; i++) {
             points.push_back(fig.points[i]);
         }
+    }
+    return *this;
     }
 
 
 
     float Triangle::height()
     {
-        float a=abs(sqrt(pow((points[1].getX()-points[2].getX()),2)+pow((points[1].getY()-points[2].getY()),2)));
-        float b=abs(sqrt(pow((points[0].getX()-points[1].getX()),2)+pow((points[0].getY()-points[1].getY()),2)));
-        float c=abs(sqrt(pow((points[0].getX()-points[2].getX()),2)+pow((points[0].getY()-points[2].getY()),2)));
+        float a=abs(hypotenuse(points[1],points[2]));
+        float b=abs(hypotenuse(points[0],points[1]));
+        float c=abs(hypotenuse(points[0],points[2]));
         float p=(a+b+c)/2;
         float h=(2/a)*sqrt(p*(p-a)*(p-b)*(p-c));
         return h;
@@ -256,43 +299,17 @@ Triangle&Triangle:: operator=(const Triangle &fig){ //присваивание
 
     float Triangle::area()
     {
-        float a=abs(sqrt(pow((points[1].getX()-points[2].getX()),2)+pow((points[1].getY()-points[2].getY()),2)));
-        float b=abs(sqrt(pow((points[0].getX()-points[1].getX()),2)+pow((points[0].getY()-points[1].getY()),2)));
-        float c=abs(sqrt(pow((points[0].getX()-points[2].getX()),2)+pow((points[0].getY()-points[2].getY()),2)));
+        float a=abs(hypotenuse(points[1],points[2]));
+        float b=abs(hypotenuse(points[0],points[1]));
+        float c=abs(hypotenuse(points[0],points[2]));
         float p=(a+b+c)/2;
         float area=sqrt(p*(p-a)*(p-b)*(p-c));
         return area;
     }
 
     bool Triangle::hasRightAngle() const {
-        float a=abs(sqrt(pow((points[1].getX()-points[2].getX()),2)+pow((points[1].getY()-points[2].getY()),2)));
-        float b=abs(sqrt(pow((points[0].getX()-points[1].getX()),2)+pow((points[0].getY()-points[1].getY()),2)));
-        float c=abs(sqrt(pow((points[0].getX()-points[2].getX()),2)+pow((points[0].getY()-points[2].getY()),2)));
-        float gip=0;
-        float kat1,kat2=0;
-        if (c>=a) {
-            if (c >= b) {
-                gip = c;
-                kat1 = a;
-                kat2 = b;
-            } else {
-                gip = b;
-                kat1 = a;
-                kat2 = c;
-            }
-        }
-        else {
-            if (a >= b) {
-                gip = a;
-                kat1 = b;
-                kat2 = c;
-            } else {
-                gip = b;
-                kat1 = a;
-                kat2 = c;
-            }
-        }
-        if ((gip*gip)==(kat1*kat1+kat2*kat2)) //по формуле Пифагора
+
+        if (((points[0].getX()-points[1].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[1].getY()-points[2].getY())==0) or ((points[0].getX()-points[1].getX())*(points[0].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[0].getY()-points[2].getY())==0) or ((points[0].getX()-points[2].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[2].getY())*(points[1].getY()-points[2].getY())==0))
             return true;
         else
             return false;
@@ -314,15 +331,18 @@ Trapezoid::Trapezoid (const Trapezoid &fig):Polygon(fig){ //копировани
     }
 
 Trapezoid&Trapezoid:: operator=(const Trapezoid &fig){ //присваивание
+    if (this!= &fig) {
         points.clear();
-        for (int i=0;i<fig.number_of_points;i++){
+        for (int i = 0; i < fig.number_of_points; i++) {
             points.push_back(fig.points[i]);
         }
     }
+    return *this ;
+    }
 
     float Trapezoid::height() const {
-        float higher=abs(sqrt(pow((points[1].getX()-points[2].getX()),2)+pow((points[1].getY()-points[2].getY()),2)));
-        float lower=abs(sqrt(pow((points[0].getX()-points[3].getX()),2)+pow((points[0].getY()-points[3].getY()),2)));
+        float higher=abs(hypotenuse(points[1],points[2]));
+        float lower=abs(hypotenuse(points[0],points[3]));
         float h=area()/(0.5*higher+0.5*lower);
         return h;
     }

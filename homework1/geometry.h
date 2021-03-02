@@ -36,6 +36,8 @@ public:
     Point getPoint(int n) const;
 
     virtual float perimeter() const;
+
+    float hypotenuse(Point first, Point second) const;
 };
 
 class ClosedPolygonalChain:public PolygonalChain{
@@ -52,11 +54,12 @@ public:
     float perimeter() const;
 };
 
-class Polygon{
+class Polygon:public ClosedPolygonalChain{
 private:
     int number_of_points;
     vec points;
 public:
+
     Polygon(int n,Point* fig);
 
     Polygon(const Polygon &fig);
@@ -70,6 +73,10 @@ public:
     virtual float perimeter();
 
     virtual float area() const;
+
+    virtual ~Polygon();
+
+    float hypotenuse(Point first, Point second) const;
 };
 
 class RegularPolygon:public Polygon{
@@ -82,6 +89,10 @@ public:
     RegularPolygon(const RegularPolygon &fig);
 
     RegularPolygon& operator=(const RegularPolygon &fig);
+
+    float perimeter();
+
+    float area();
 
     bool regular();
 
