@@ -6,7 +6,7 @@
 #define vec std::vector<Point>
 #define pi 3.1415926535
 
-
+//todo indenation
     Point::Point() //конструктор со значениями по умолчанию
     {
         x=0;
@@ -48,7 +48,7 @@
     }
 
 
-
+//todo S P A C E S
 PolygonalChain::PolygonalChain(int n,Point* fig) //конструктор
     {
         number_of_points=n;
@@ -58,6 +58,7 @@ PolygonalChain::PolygonalChain(int n,Point* fig) //конструктор
     }
 
 PolygonalChain&PolygonalChain:: operator=(const PolygonalChain &chain){ //оператор присваивания
+    //todo vector has =, u dont need clear
     if (this!= &chain) {
         points.clear();
         number_of_points = chain.number_of_points;
@@ -69,6 +70,7 @@ PolygonalChain&PolygonalChain:: operator=(const PolygonalChain &chain){ //опе
     }
 
 PolygonalChain::PolygonalChain(const PolygonalChain &chain) //конструктор копирования
+//todo remove it
     {
         points.clear();
         number_of_points=chain.number_of_points;
@@ -105,7 +107,7 @@ float PolygonalChain::hypotenuse(Point first, Point second) const {
     return sqrt(pow((first.getX()-second.getX()),2)+pow((first.getY()-second.getY()),2));
 }
 
-
+//todo enormous amount of copy-paste
 ClosedPolygonalChain::ClosedPolygonalChain(int n,Point* fig):PolygonalChain(n,fig) //конструктор
     {
         number_of_points=n;
@@ -136,6 +138,7 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):Po
 
 
     float ClosedPolygonalChain::perimeter() const {
+        //copy-paster perimeter
         float per=0;
         for (int i=1;i<number_of_points;i++){
             per=per+hypotenuse(points[i-1],points[i]);
@@ -286,7 +289,7 @@ Triangle&Triangle:: operator=(const Triangle &fig){ //присваивание
     }
 
 
-
+    
     float Triangle::height()
     {
         float a=abs(hypotenuse(points[1],points[2]));
@@ -308,7 +311,7 @@ Triangle&Triangle:: operator=(const Triangle &fig){ //присваивание
     }
 
     bool Triangle::hasRightAngle() const {
-
+       //todo return expression
         if (((points[0].getX()-points[1].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[1].getY()-points[2].getY())==0) or ((points[0].getX()-points[1].getX())*(points[0].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[0].getY()-points[2].getY())==0) or ((points[0].getX()-points[2].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[2].getY())*(points[1].getY()-points[2].getY())==0))
             return true;
         else

@@ -41,6 +41,7 @@ public:
 };
 
 class ClosedPolygonalChain:public PolygonalChain{
+//todo inherit fields
 private:
     int number_of_points;
     vec points;
