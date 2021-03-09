@@ -2,30 +2,40 @@ Pulling https://github.com/kroexov/IS-2020-prog-2-sem/homework1
 Pull finished
 It's compiled
 It's OK
-geometry.cpp: In member function 'void PolygonalChain::get()':
-geometry.cpp:79:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-   79 |     for (int i = 0; i < points.size(); i++){
-      |                     ~~^~~~~~~~~~~~~~~
-geometry.cpp: In member function 'virtual float PolygonalChain::perimeter() const':
-geometry.cpp:101:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-  101 |     for (int i = 1; i < points.size(); i++){
-      |                     ~~^~~~~~~~~~~~~~~
-geometry.cpp: In member function 'void Polygon::get()':
-geometry.cpp:159:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-  159 |     for (int i = 0; i < points.size(); i++){
-      |                     ~~^~~~~~~~~~~~~~~
 geometry.cpp: In member function 'virtual float Polygon::area() const':
-geometry.cpp:178:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-  178 |     for (int i = 0; i < points.size() - 1; i++){
+geometry.cpp:148:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  148 |     for (int i = 0; i < points.size() - 1; i++){
       |                     ~~^~~~~~~~~~~~~~~~~~~
-geometry.cpp: In member function 'bool RegularPolygon::regular()':
-geometry.cpp:205:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-  205 |     for (int i = 2; i < points.size(); i++) {
-      |                     ~~^~~~~~~~~~~~~~~
-geometry.cpp: In member function 'virtual float Trapezoid::area() const':
-geometry.cpp:296:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
-  296 |     for (int i = 0; i < points.size() - 1; i++){
-      |                     ~~^~~~~~~~~~~~~~~~~~~
+main.cpp: In function 'void PolygonsCheck()':
+main.cpp:43:11: warning: implicitly-declared 'Trapezoid& Trapezoid::operator=(const Trapezoid&)' is deprecated [-Wdeprecated-copy]
+   43 |     tra = tr;
+      |           ^~
+In file included from main.cpp:1:
+geometry.h:103:5: note: because 'Trapezoid' has user-provided 'Trapezoid::Trapezoid(const Trapezoid&)'
+  103 |     Trapezoid (const Trapezoid &fig);
+      |     ^~~~~~~~~
+geometry.h: In member function 'Trapezoid& Trapezoid::operator=(const Trapezoid&)':
+geometry.h:99:7: warning: implicitly-declared 'Polygon& Polygon::operator=(const Polygon&)' is deprecated [-Wdeprecated-copy]
+   99 | class Trapezoid:public Polygon
+      |       ^~~~~~~~~
+geometry.h:62:5: note: because 'Polygon' has user-provided 'Polygon::Polygon(const Polygon&)'
+   62 |     Polygon(const Polygon &fig);
+      |     ^~~~~~~
+geometry.h: In member function 'Polygon& Polygon::operator=(const Polygon&)':
+geometry.h:56:7: warning: implicitly-declared 'ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain&)' is deprecated [-Wdeprecated-copy]
+   56 | class Polygon:public ClosedPolygonalChain
+      |       ^~~~~~~
+geometry.h:51:5: note: because 'ClosedPolygonalChain' has user-provided 'ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain&)'
+   51 |     ClosedPolygonalChain(const ClosedPolygonalChain &chain);
+      |     ^~~~~~~~~~~~~~~~~~~~
+geometry.h: In member function 'Trapezoid& Trapezoid::operator=(const Trapezoid&)':
+geometry.h:99:7: note: synthesized method 'Polygon& Polygon::operator=(const Polygon&)' first required here
+   99 | class Trapezoid:public Polygon
+      |       ^~~~~~~~~
+main.cpp: In function 'void PolygonsCheck()':
+main.cpp:43:11: note: synthesized method 'Trapezoid& Trapezoid::operator=(const Trapezoid&)' first required here
+   43 |     tra = tr;
+      |           ^~
 
 
 
