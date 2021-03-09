@@ -27,7 +27,7 @@ protected:
 public:
     PolygonalChain(int n,Point* fig);
 
-    PolygonalChain& operator=(const PolygonalChain &chain);
+    virtual PolygonalChain& operator=(const PolygonalChain &chain);
 
     PolygonalChain(const PolygonalChain &chain);
 
@@ -48,8 +48,6 @@ class ClosedPolygonalChain:public PolygonalChain
 public:
     ClosedPolygonalChain(int n,Point* fig);
 
-    ClosedPolygonalChain& operator=(const ClosedPolygonalChain &chain);
-
     ClosedPolygonalChain(const ClosedPolygonalChain &chain);
 
     float perimeter() const;
@@ -63,13 +61,9 @@ public:
 
     Polygon(const Polygon &fig);
 
-    Polygon& operator=(const Polygon &fig);
-
     void get();
 
     Point getPoint(int n);
-
-    virtual float perimeter();
 
     virtual float area() const;
 };
@@ -80,8 +74,6 @@ public:
     RegularPolygon(int n,Point* fig);
 
     RegularPolygon(const RegularPolygon &fig);
-
-    RegularPolygon& operator=(const RegularPolygon &fig);
 
     float area();
 
@@ -96,8 +88,6 @@ public:
 
     Triangle(const Triangle &fig);
 
-    Triangle& operator=(const Triangle &fig);
-
     float height();
 
     float area();
@@ -111,7 +101,6 @@ class Trapezoid:public Polygon
 public:
     Trapezoid (int n,Point* fig);
     Trapezoid (const Trapezoid &fig);
-    Trapezoid& operator=(const Trapezoid &fig);
     float height() const;
     float area() const;
 };
