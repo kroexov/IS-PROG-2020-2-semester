@@ -1,52 +1,31 @@
-Cloning https://github.com/kroexov/IS-2020-prog-2-sem/homework1
-Cloning finished
+Pulling https://github.com/kroexov/IS-2020-prog-2-sem/homework1
+Pull finished
+It's compiled
 It's OK
-geometry.cpp: In member function 'Point& Point::operator=(const Point&)':
-geometry.cpp:28:5: warning: no return statement in function returning non-void [-Wreturn-type]
-   27 |         y = point.y;
-  +++ |+        return *this;
-   28 |     }
-      |     ^
-geometry.cpp: In member function 'PolygonalChain& PolygonalChain::operator=(const PolygonalChain&)':
-geometry.cpp:61:5: warning: no return statement in function returning non-void [-Wreturn-type]
-   60 |         }
-  +++ |+        return *this;
-   61 |     }
-      |     ^
-geometry.cpp: In member function 'ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain&)':
-geometry.cpp:111:5: warning: no return statement in function returning non-void [-Wreturn-type]
-  110 |         }
-  +++ |+        return *this;
-  111 |     }
-      |     ^
-geometry.cpp: In member function 'Polygon& Polygon::operator=(const Polygon&)':
-geometry.cpp:154:5: warning: no return statement in function returning non-void [-Wreturn-type]
-  153 |         }
-  +++ |+        return *this;
-  154 |     }
-      |     ^
-geometry.cpp: In member function 'RegularPolygon& RegularPolygon::operator=(const RegularPolygon&)':
-geometry.cpp:208:5: warning: no return statement in function returning non-void [-Wreturn-type]
-  207 |         }
-  +++ |+        return *this;
-  208 |     }
-      |     ^
-geometry.cpp: In member function 'Triangle& Triangle::operator=(const Triangle&)':
-geometry.cpp:243:5: warning: no return statement in function returning non-void [-Wreturn-type]
-  242 |         }
-  +++ |+        return *this;
-  243 |     }
-      |     ^
-geometry.cpp: In member function 'Trapezoid& Trapezoid::operator=(const Trapezoid&)':
-geometry.cpp:321:5: warning: no return statement in function returning non-void [-Wreturn-type]
-  320 |         }
-  +++ |+        return *this;
-  321 |     }
-      |     ^
-main.cpp: In function 'void PolygonsCheck()':
-main.cpp:47:12: warning: deleting object of polymorphic class type 'Trapezoid' which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
-   47 |     delete trap;
-      |            ^~~~
+geometry.cpp: In member function 'void PolygonalChain::get()':
+geometry.cpp:79:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+   79 |     for (int i = 0; i < points.size(); i++){
+      |                     ~~^~~~~~~~~~~~~~~
+geometry.cpp: In member function 'virtual float PolygonalChain::perimeter() const':
+geometry.cpp:101:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  101 |     for (int i = 1; i < points.size(); i++){
+      |                     ~~^~~~~~~~~~~~~~~
+geometry.cpp: In member function 'void Polygon::get()':
+geometry.cpp:159:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  159 |     for (int i = 0; i < points.size(); i++){
+      |                     ~~^~~~~~~~~~~~~~~
+geometry.cpp: In member function 'virtual float Polygon::area() const':
+geometry.cpp:178:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  178 |     for (int i = 0; i < points.size() - 1; i++){
+      |                     ~~^~~~~~~~~~~~~~~~~~~
+geometry.cpp: In member function 'bool RegularPolygon::regular()':
+geometry.cpp:205:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  205 |     for (int i = 2; i < points.size(); i++) {
+      |                     ~~^~~~~~~~~~~~~~~
+geometry.cpp: In member function 'virtual float Trapezoid::area() const':
+geometry.cpp:296:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<Point>::size_type' {aka 'unsigned int'} [-Wsign-compare]
+  296 |     for (int i = 0; i < points.size() - 1; i++){
+      |                     ~~^~~~~~~~~~~~~~~~~~~
 
 
 
