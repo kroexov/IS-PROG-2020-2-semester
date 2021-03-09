@@ -50,7 +50,7 @@ void Point::set(double x1, double y1)
 }
 
 
-//todo S P A C E S
+//fixed S P A C E S
 PolygonalChain::PolygonalChain (int n, Point* fig)
 {
     for ( int i = 0 ; i < n ; i++ ){
@@ -58,14 +58,7 @@ PolygonalChain::PolygonalChain (int n, Point* fig)
     }
 }
 
-PolygonalChain&PolygonalChain::operator= (const PolygonalChain &chain)
-    //fixed vector has =, u dont need clear
-{
-    if (this != &chain) {
-        this->points = chain.points;
-    }
-    return *this;
-}
+PolygonalChain&PolygonalChain::operator= (const PolygonalChain &chain)=default;
 
 PolygonalChain::PolygonalChain(const PolygonalChain &chain)
 //fixed remove it
@@ -76,14 +69,12 @@ PolygonalChain::PolygonalChain(const PolygonalChain &chain)
 void PolygonalChain::get()
 {
     std::cout << "number: " << points.size() << std::endl;
-    for (int i = 0; i < points.size(); i++){
+    for (unsigned int i = 0; i < points.size(); i++){
         std::cout << "point " << i << ": " << points[i].getX() << " " << points[i].getY() << std::endl;
     }
 }
 
-PolygonalChain::~PolygonalChain() {
-    points.clear();
-}
+PolygonalChain::~PolygonalChain() = default;
 
 Point PolygonalChain::getPoint(int n) const
 {
@@ -98,29 +89,22 @@ int PolygonalChain::getN() const
 float PolygonalChain::perimeter() const
 {
     float per = 0;
-    for (int i = 1; i < points.size(); i++){
-        per = per + hypotenuse(points[i-1],points[i]);
+    for (unsigned int i = 1; i < points.size(); i++){
+        per = per + hypotenuse(points[i-1], points[i]);
     }
     return per;
 }
 
 float PolygonalChain::hypotenuse(Point first, Point second) const
 {
-    return sqrt(pow((first.getX() - second.getX()),2)+pow((first.getY() - second.getY()),2));
+    return sqrt(pow((first.getX() - second.getX()), 2) + pow((first.getY() - second.getY()), 2));
 }
 
 //fixed enormous amount of copy-paste
-ClosedPolygonalChain::ClosedPolygonalChain(int n,Point* fig):PolygonalChain(n,fig)
+ClosedPolygonalChain::ClosedPolygonalChain(int n, Point* fig):PolygonalChain(n, fig)
 {
 }
 
-ClosedPolygonalChain & ClosedPolygonalChain :: operator= (const ClosedPolygonalChain &chain)
-{
-    if (this != &chain) {
-        this->points = chain.points;
-    }
-    return *this;
-}
 
 ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):PolygonalChain(chain)
 {
@@ -130,12 +114,12 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):Po
 float ClosedPolygonalChain::perimeter() const
 {
     float per = PolygonalChain::perimeter();
-    per = per + hypotenuse(points[0],points[points.size()-1]);
+    per = per + hypotenuse(points[0], points[points.size() - 1]);
     return per;
 }
 
 
-Polygon::Polygon(int n, Point* fig):ClosedPolygonalChain(n,fig)
+Polygon::Polygon(int n, Point* fig):ClosedPolygonalChain(n, fig)
 {
 }
 
@@ -143,19 +127,12 @@ Polygon::Polygon(int n, Point* fig):ClosedPolygonalChain(n,fig)
 Polygon::Polygon(const Polygon &fig):ClosedPolygonalChain(fig)
 {
 }
-//todo one = default
-Polygon&Polygon:: operator=(const Polygon &fig)
-{
-    if (this != &fig) {
-        this->points = fig.points;
-    }
-    return *this;
-}
+//fixed one = default
 
 void Polygon::get()
 {
     std::cout << "number: " << points.size() << std::endl;
-    for (int i = 0; i < points.size(); i++){
+    for (unsigned int i = 0; i < points.size(); i++){
         std::cout << "point " << i << ": " << points[i].getX() << " " << points[i].getY() << std::endl;
     }
 }
@@ -165,19 +142,13 @@ Point Polygon::getPoint(int n)
     return points[n];
 }
 
-float Polygon::perimeter()
-{
-    float per=ClosedPolygonalChain::perimeter();
-    return per;
-}
-
 float Polygon::area() const
 {
     float sq=0;
     for (int i = 0; i < points.size() - 1; i++){
-        sq += points[i].getX() * points[i+1].getY() - points[i].getY() * points[i+1].getX();
+        sq += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
     }
-    sq += points[points.size()-1].getX() * points[0].getY() - points[points.size()-1].getY() * points[0].getX();
+    sq += points[points.size() - 1].getX() * points[0].getY() - points[points.size() - 1].getY() * points[0].getX();
     return abs(sq / 2);
 }
 
@@ -189,23 +160,17 @@ RegularPolygon::RegularPolygon(const RegularPolygon &fig):Polygon(fig)
 {
 }
 
-RegularPolygon&RegularPolygon:: operator=(const RegularPolygon &fig)
-{
-    if (this != &fig) {
-        this->points = fig.points;
-    }
-    return *this;
-}
+
 
 
 bool RegularPolygon::regular()
 {
-    float first = abs(hypotenuse(points[0],points[1]));
-    for (int i = 2; i < points.size(); i++) {
-        if (abs(hypotenuse(points[i - 1],points[i])) != first)
+    float first = abs(hypotenuse(points[0], points[1]));
+    for (unsigned int i = 2; i < points.size(); i++) {
+        if (abs(hypotenuse(points[i - 1], points[i])) != first)
             return false;
     }
-    if (abs(hypotenuse(points[points.size() - 1],points[0])) != first)
+    if (abs(hypotenuse(points[points.size() - 1], points[0])) != first)
         return false;
     return true;
 }
@@ -227,23 +192,16 @@ Triangle::Triangle(const Triangle &fig):Polygon(fig)
 {
 }
 
-Triangle&Triangle:: operator=(const Triangle &fig)
-{
-    if (this != &fig) {
-        this->points = fig.points;
-    }
-    return *this;
-}
 
 
 
 float Triangle::height()
 {
-    float a = abs(hypotenuse(points[1],points[2]));
-    float b = abs(hypotenuse(points[0],points[1]));
-    float c = abs(hypotenuse(points[0],points[2]));
+    float a = abs(hypotenuse(points[1], points[2]));
+    float b = abs(hypotenuse(points[0], points[1]));
+    float c = abs(hypotenuse(points[0], points[2]));
     float p = (a + b + c) / 2;
-    float h = (2/a) * sqrt(p*(p-a)*(p-b)*(p-c));
+    float h = (2 / a) * sqrt(p * (p - a) * (p - b) * (p - c));
     return h;
 }
 
@@ -253,15 +211,15 @@ float Triangle::area()
     float b = abs(hypotenuse(points[0],points[1]));
     float c = abs(hypotenuse(points[0],points[2]));
     float p = (a + b + c) / 2;
-    float area = sqrt(p*(p-a)*(p-b)*(p-c));
-    area=floor(area*100)/100;
+    float area = sqrt(p * (p - a) * (p - b) * (p - c));
+    area=floor(area * 100) / 100;
     return area;
 }
 
 bool Triangle::hasRightAngle() const
 {
     //fixed return expression
-    return (((points[0].getX()-points[1].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[1].getY()-points[2].getY())==0) or ((points[0].getX()-points[1].getX())*(points[0].getX()-points[2].getX())+(points[0].getY()-points[1].getY())*(points[0].getY()-points[2].getY())==0) or ((points[0].getX()-points[2].getX())*(points[1].getX()-points[2].getX())+(points[0].getY()-points[2].getY())*(points[1].getY()-points[2].getY())==0));
+    return (((points[0].getX() - points[1].getX()) * (points[1].getX() - points[2].getX()) + (points[0].getY() - points[1].getY()) * (points[1].getY() - points[2].getY()) == 0) or ((points[0].getX() - points[1].getX()) * (points[0].getX() - points[2].getX()) + (points[0].getY() - points[1].getY()) * (points[0].getY() - points[2].getY()) == 0) or ((points[0].getX() - points[2].getX()) * (points[1].getX() - points[2].getX()) + (points[0].getY() - points[2].getY()) * (points[1].getY() - points[2].getY()) == 0));
 }
 
 
@@ -274,28 +232,21 @@ Trapezoid::Trapezoid (const Trapezoid &fig):Polygon(fig)
 {
 }
 
-Trapezoid&Trapezoid:: operator=(const Trapezoid &fig){
-    if (this != &fig) {
-        this->points = fig.points;
-    }
-    return *this;
-}
 
 float Trapezoid::height() const
 {
-    float higher = abs(hypotenuse(points[1],points[2]));
-    float lower = abs(hypotenuse(points[0],points[3]));
-    float h = area() / (0.5*higher+0.5*lower);
+    float higher = abs(hypotenuse(points[1], points[2]));
+    float lower = abs(hypotenuse(points[0], points[3]));
+    float h = area() / (0.5 * higher + 0.5 * lower);
     return h;
 }
 
 float Trapezoid::area() const
 {
     float sq = 0;
-    for (int i = 0; i < points.size() - 1; i++){
-        sq+=points[i].getX() * points[i+1].getY() - points[i].getY() * points[i+1].getX();
+    for (unsigned int i = 0; i < points.size() - 1; i++){
+        sq+=points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
     }
-    sq+=points[points.size() - 1].getX() * points[0].getY() - points[points.size()-1].getY() * points[0].getX();
+    sq+=points[points.size() - 1].getX() * points[0].getY() - points[points.size() - 1].getY() * points[0].getX();
     return abs(sq / 2);
 }
-
