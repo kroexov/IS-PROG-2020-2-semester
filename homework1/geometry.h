@@ -20,9 +20,9 @@ public:
 
 };
 
-class PolygonalChain{
-private:
-    int number_of_points;
+class PolygonalChain
+{
+protected:
     vec points;
 public:
     PolygonalChain(int n,Point* fig);
@@ -35,16 +35,16 @@ public:
     int getN() const;
     Point getPoint(int n) const;
 
+    virtual ~PolygonalChain();
+
     virtual float perimeter() const;
 
     float hypotenuse(Point first, Point second) const;
 };
 
-class ClosedPolygonalChain:public PolygonalChain{
-//todo inherit fields
-private:
-    int number_of_points;
-    vec points;
+class ClosedPolygonalChain:public PolygonalChain
+{
+//fixed inherit fields
 public:
     ClosedPolygonalChain(int n,Point* fig);
 
@@ -55,10 +55,8 @@ public:
     float perimeter() const;
 };
 
-class Polygon:public ClosedPolygonalChain{
-private:
-    int number_of_points;
-    vec points;
+class Polygon:public ClosedPolygonalChain
+{
 public:
 
     Polygon(int n,Point* fig);
@@ -74,16 +72,10 @@ public:
     virtual float perimeter();
 
     virtual float area() const;
-
-    virtual ~Polygon();
-
-    float hypotenuse(Point first, Point second) const;
 };
 
-class RegularPolygon:public Polygon{
-private:
-    int number_of_points;
-    vec points;
+class RegularPolygon:public Polygon
+{
 public:
     RegularPolygon(int n,Point* fig);
 
@@ -91,18 +83,14 @@ public:
 
     RegularPolygon& operator=(const RegularPolygon &fig);
 
-    float perimeter();
-
     float area();
 
     bool regular();
 
 };
 
-class Triangle:public Polygon{
-private:
-    int number_of_points=3;
-    vec points;
+class Triangle:public Polygon
+{
 public:
     Triangle(int n,Point* fig);
 
@@ -118,10 +106,8 @@ public:
 
 };
 
-class Trapezoid:public Polygon{
-private:
-    int number_of_points=4;
-    vec points;
+class Trapezoid:public Polygon
+{
 public:
     Trapezoid (int n,Point* fig);
     Trapezoid (const Trapezoid &fig);
@@ -129,10 +115,6 @@ public:
     float height() const;
     float area() const;
 };
-
-
-
-
 
 
 #endif //C___LAB_2_SEMESTER_GEOMETRY_H
