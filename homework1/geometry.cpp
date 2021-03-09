@@ -110,6 +110,7 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):Po
 {
 }
 
+ClosedPolygonalChain&ClosedPolygonalChain::operator= (const ClosedPolygonalChain &chain)=default;
 
 float ClosedPolygonalChain::perimeter() const
 {
@@ -129,6 +130,8 @@ Polygon::Polygon(const Polygon &fig):ClosedPolygonalChain(fig)
 }
 //fixed one = default
 
+Polygon&Polygon::operator= (const Polygon &fig)=default;
+
 void Polygon::get()
 {
     std::cout << "number: " << points.size() << std::endl;
@@ -142,10 +145,11 @@ Point Polygon::getPoint(int n)
     return points[n];
 }
 
+
 float Polygon::area() const
 {
     float sq=0;
-    for (int i = 0; i < points.size() - 1; i++){
+    for (unsigned int i = 0; i < points.size() - 1; i++){
         sq += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
     }
     sq += points[points.size() - 1].getX() * points[0].getY() - points[points.size() - 1].getY() * points[0].getX();
@@ -160,8 +164,7 @@ RegularPolygon::RegularPolygon(const RegularPolygon &fig):Polygon(fig)
 {
 }
 
-
-
+RegularPolygon&RegularPolygon::operator= (const RegularPolygon &fig)=default;
 
 bool RegularPolygon::regular()
 {
@@ -192,7 +195,7 @@ Triangle::Triangle(const Triangle &fig):Polygon(fig)
 {
 }
 
-
+Triangle&Triangle::operator= (const Triangle &fig)=default;
 
 
 float Triangle::height()
@@ -232,6 +235,7 @@ Trapezoid::Trapezoid (const Trapezoid &fig):Polygon(fig)
 {
 }
 
+Trapezoid&Trapezoid::operator= (const Trapezoid &fig)=default;
 
 float Trapezoid::height() const
 {
