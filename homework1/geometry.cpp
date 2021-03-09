@@ -50,7 +50,7 @@ void Point::set(double x1, double y1)
 }
 
 
-//fixed S P A C E S
+//todo S P A C E S
 PolygonalChain::PolygonalChain (int n, Point* fig)
 {
     for ( int i = 0 ; i < n ; i++ ){
@@ -129,7 +129,6 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &chain):Po
 
 float ClosedPolygonalChain::perimeter() const
 {
-    //fixed copy-paster perimeter
     float per = PolygonalChain::perimeter();
     per = per + hypotenuse(points[0],points[points.size()-1]);
     return per;
@@ -144,7 +143,7 @@ Polygon::Polygon(int n, Point* fig):ClosedPolygonalChain(n,fig)
 Polygon::Polygon(const Polygon &fig):ClosedPolygonalChain(fig)
 {
 }
-
+//todo one = default
 Polygon&Polygon:: operator=(const Polygon &fig)
 {
     if (this != &fig) {
