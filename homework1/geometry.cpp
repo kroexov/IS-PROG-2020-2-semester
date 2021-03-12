@@ -5,7 +5,7 @@
 #include <cassert>
 #define pi 3.1415926535
 
-//fixed indenation
+//todo S P A C E S
 Point::Point()
 {
     x = 0;
@@ -50,7 +50,6 @@ void Point::set(double x1, double y1)
 }
 
 
-//fixed S P A C E S
 PolygonalChain::PolygonalChain (int n, Point* fig)
 {
     for ( int i = 0 ; i < n ; i++ ){
@@ -173,6 +172,7 @@ bool RegularPolygon::regular()
         if (abs(hypotenuse(points[i - 1], points[i])) != first)
             return false;
     }
+    //todo return expression
     if (abs(hypotenuse(points[points.size() - 1], points[0])) != first)
         return false;
     return true;
@@ -221,7 +221,6 @@ float Triangle::area()
 
 bool Triangle::hasRightAngle() const
 {
-    //fixed return expression
     return (((points[0].getX() - points[1].getX()) * (points[1].getX() - points[2].getX()) + (points[0].getY() - points[1].getY()) * (points[1].getY() - points[2].getY()) == 0) or ((points[0].getX() - points[1].getX()) * (points[0].getX() - points[2].getX()) + (points[0].getY() - points[1].getY()) * (points[0].getY() - points[2].getY()) == 0) or ((points[0].getX() - points[2].getX()) * (points[1].getX() - points[2].getX()) + (points[0].getY() - points[2].getY()) * (points[1].getY() - points[2].getY()) == 0));
 }
 
