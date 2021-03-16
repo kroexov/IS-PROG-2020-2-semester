@@ -207,9 +207,9 @@ float Triangle::height()
 
 float Triangle::area()
 {
-    float a = abs(hypotenuse(points[1],points[2]));
-    float b = abs(hypotenuse(points[0],points[1]));
-    float c = abs(hypotenuse(points[0],points[2]));
+    float a = abs(hypotenuse(points[1], points[2]));
+    float b = abs(hypotenuse(points[0], points[1]));
+    float c = abs(hypotenuse(points[0], points[2]));
     float p = (a + b + c) / 2;
     float area = sqrt(p * (p - a) * (p - b) * (p - c));
     area=floor(area * 100) / 100;
@@ -222,7 +222,7 @@ bool Triangle::hasRightAngle() const
 }
 
 
-Trapezoid::Trapezoid (int n,Point* fig):Polygon(n,fig)
+Trapezoid::Trapezoid (int n, Point* fig):Polygon(n,fig)
 {
     assert(n == 4);
 }
