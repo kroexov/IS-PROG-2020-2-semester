@@ -5,7 +5,7 @@
 #include <cassert>
 #define pi 3.1415926535
 
-//todo S P A C E S
+//fixed S P A C E S
 Point::Point()
 {
     x = 0;
@@ -68,7 +68,7 @@ PolygonalChain::PolygonalChain(const PolygonalChain &chain)
 void PolygonalChain::get()
 {
     std::cout << "number: " << points.size() << std::endl;
-    for (unsigned int i = 0; i < points.size(); i++){
+    for (unsigned int i = 0 ; i < points.size() ; i++){
         std::cout << "point " << i << ": " << points[i].getX() << " " << points[i].getY() << std::endl;
     }
 }
@@ -88,7 +88,7 @@ int PolygonalChain::getN() const
 float PolygonalChain::perimeter() const
 {
     float per = 0;
-    for (unsigned int i = 1; i < points.size(); i++){
+    for (unsigned int i = 1 ; i < points.size() ; i++){
         per = per + hypotenuse(points[i-1], points[i]);
     }
     return per;
@@ -172,10 +172,8 @@ bool RegularPolygon::regular()
         if (abs(hypotenuse(points[i - 1], points[i])) != first)
             return false;
     }
-    //todo return expression
-    if (abs(hypotenuse(points[points.size() - 1], points[0])) != first)
-        return false;
-    return true;
+    //fixed return expression
+    return (abs(hypotenuse(points[points.size() - 1], points[0])) == first);
 }
 
 float RegularPolygon::area()
@@ -184,7 +182,6 @@ float RegularPolygon::area()
     float sq = points.size() * a * a / (4 * tan(pi / points.size()));
     return sq;
 }
-
 
 Triangle::Triangle(int n, Point* fig):Polygon(n, fig)
 {
@@ -253,3 +250,5 @@ float Trapezoid::area() const
     sq+=points[points.size() - 1].getX() * points[0].getY() - points[points.size() - 1].getY() * points[0].getX();
     return abs(sq / 2);
 }
+
+
