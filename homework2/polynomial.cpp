@@ -139,6 +139,7 @@ Polynomial &Polynomial::operator*=(const Polynomial &polynom) {
             result.degrees[i + j - result.min] += degrees[i - min] * polynom.degrees[j - polynom.min];
         }
     }
+    delete[] degrees;
     return *this = result;
 }
 
@@ -170,6 +171,7 @@ Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
     }
     min = newmin;
     max = newmax;
+    delete[] newdegrees;
     return *this;
 }
 
@@ -240,3 +242,5 @@ std::ostream &operator<<(std::ostream &out, const Polynomial &polynom) {
     }
     return out;
 }
+
+
