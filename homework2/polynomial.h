@@ -29,15 +29,15 @@ public:
 
     Polynomial &operator*=(const Polynomial &polynom);
 
+    Polynomial &operator*(const Polynomial &polynom) const;
+
     Polynomial &operator+=(const Polynomial &polynom);
+
+    Polynomial &operator+(const Polynomial &polynom) const;
 
     Polynomial &operator/=(const int &k);
 
     Polynomial &operator/(int k) const;
-
-    friend Polynomial operator*(const Polynomial &first, const Polynomial &second);
-
-    friend Polynomial operator+(const Polynomial &first, const Polynomial &second);
 
     friend Polynomial operator-(const Polynomial &polynom);
 
