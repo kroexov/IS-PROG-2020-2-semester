@@ -143,11 +143,9 @@ Polynomial &Polynomial::operator*=(const Polynomial &polynom) {
     return *this = result;
 }
 
-
-Polynomial operator*(const Polynomial &first_pol, const Polynomial &second_pol) {
-    Polynomial pol = Polynomial(first_pol);
-    pol *= second_pol;
-    return pol;
+Polynomial &Polynomial::operator*(const Polynomial &polynom) const {
+    Polynomial result(*this);
+    return result *= polynom;
 }
 
 Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
@@ -177,12 +175,10 @@ Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
     return *this;
 }
 
-Polynomial operator+(const Polynomial &first_pol, const Polynomial &second_pol) {
-    Polynomial pol = Polynomial(first_pol);
-    pol += second_pol;
-    return pol;
+Polynomial &Polynomial::operator+(const Polynomial &polynom) const {
+    Polynomial result(*this);
+    return result += polynom;
 }
-
 
 std::ostream &operator<<(std::ostream &out, const Polynomial &polynom) {
     if (polynom.degrees == nullptr) {
