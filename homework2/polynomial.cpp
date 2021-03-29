@@ -6,8 +6,12 @@ Polynomial::~Polynomial() = default;
 
 Polynomial::Polynomial(int minimal, int maximal, int *coefficients) : min(minimal), max(maximal) {
     degrees = new int[max - min + 1];
-    for (int i = 0; i < max - min + 1; i++) {
-        degrees[i] = coefficients[i];
+    if (coefficients == nullptr)
+        degrees = nullptr;
+    else {
+        for (int i = 0; i < max - min + 1; i++) {
+            degrees[i] = coefficients[i];
+        }
     }
 }
 
@@ -124,60 +128,50 @@ Polynomial operator-(const Polynomial &polynom) {
 
 
 Polynomial &Polynomial::operator*=(const Polynomial &polynom) {
-    Polynomial result;
-    if (degrees == nullptr or polynom.degrees == nullptr) {
-        result.degrees = nullptr;
-        result.min = 0;
-        result.max = 0;
-        return *this = result;
-    }
-    result.min = min + polynom.min;
-    result.max = max + polynom.max;
-    result.degrees = new int[result.max - result.min + 1]{0};
-    for (int i = min; i <= max; i++) {
-        for (int j = polynom.min; j <= polynom.max; j++) {
-            result.degrees[i + j - result.min] += degrees[i - min] * polynom.degrees[j - polynom.min];
-        }
-    }
-    delete[] degrees;
-    return *this = result;
-}
-
-Polynomial &Polynomial::operator*(const Polynomial &polynom) const {
-    Polynomial result(*this);
-    return result *= polynom;
-}
-
-Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
-    if (degrees == nullptr and polynom.degrees == nullptr)
-        return *this;
-
-    else if (degrees == nullptr)
-        return *this = polynom;
-
-    else if (polynom.degrees == nullptr)
-        return *this;
-
-    int newmin = std::min(min, polynom.min);
-    int newmax = std::min(max, polynom.max);
-    int *newdegrees = new int[newmax - newmin + 1];
-    for (int i = min; i <= max; i++)
-        newdegrees[i - newmin] += degrees[i - min];
-    for (int j = polynom.min; j <= polynom.max; j++)
-        newdegrees[j - newmin] += polynom.degrees[j - polynom.min];
-    degrees = new int[newmax - newmin + 1];
-    for (int i = 0; i < newmax - newmin + 1; i++) {
-        degrees[i] = newdegrees[i];
-    }
-    min = newmin;
-    max = newmax;
-    delete[] newdegrees;
+    *this = *this * polynom;
     return *this;
 }
 
-Polynomial &Polynomial::operator+(const Polynomial &polynom) const {
-    Polynomial result(*this);
-    return result += polynom;
+Polynomial operator*(const Polynomial &left, const Polynomial &right) {
+
+    if (left.degrees == nullptr or right.degrees == nullptr) {
+        return Polynomial(0, 0, nullptr);
+    }
+    int newmin = left.min + right.min;
+    int newmax = left.max + right.max;
+    int *newdegrees = new int[newmax - newmin + 1]{0};
+    for (int i = left.min; i <= left.max; i++) {
+        for (int j = right.min; j <= right.max; j++) {
+            newdegrees[i + j - newmin] += left.degrees[i - left.min] * right.degrees[j - right.min];
+        }
+    }
+    return Polynomial(newmin, newmax, newdegrees);
+}
+
+Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
+    *this = *this + polynom;
+    return *this;
+}
+
+Polynomial operator+(const Polynomial &left, const Polynomial &right) {
+    if (left.degrees == nullptr and right.degrees == nullptr)
+        return Polynomial(0, 0, nullptr);
+
+    else if (left.degrees == nullptr)
+        return Polynomial(right.min, right.max, right.degrees);
+
+    else if (right.degrees == nullptr)
+        return Polynomial(left.min, left.max, left.degrees);
+
+    int newmin = std::min(left.min, right.min);
+    int newmax = std::max(left.max, right.max);
+    int *newdegrees = new int[newmax - newmin + 1];
+    for (int i = left.min; i <= left.max; i++)
+        newdegrees[i - newmin] += left.degrees[i - left.min];
+    for (int j = right.min; j <= right.max; j++)
+        newdegrees[j - newmin] += right.degrees[j - right.min];
+
+    return Polynomial(newmin, newmax, newdegrees);
 }
 
 std::ostream &operator<<(std::ostream &out, const Polynomial &polynom) {
