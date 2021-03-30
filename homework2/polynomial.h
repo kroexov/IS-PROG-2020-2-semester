@@ -5,7 +5,7 @@
 #include<iostream>
 #include<math.h>
 
-
+//todo - and -=
 class Polynomial {
 private:
     int min = 0;

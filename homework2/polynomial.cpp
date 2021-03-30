@@ -2,6 +2,7 @@
 
 Polynomial::Polynomial() = default;
 
+//todo default doesnt work
 Polynomial::~Polynomial() = default;
 
 Polynomial::Polynomial(int minimal, int maximal, int *coefficients) : min(minimal), max(maximal) {
@@ -29,6 +30,7 @@ Polynomial::Polynomial(const Polynomial &polynom)
         : min(polynom.min), max(polynom.max), degrees(degreeupper(polynom.degrees, polynom.max - polynom.min + 1)) {}
 
 
+//todo = doesnt work
 Polynomial &Polynomial::operator=(const Polynomial &polynom) = default;
 
 bool operator==(const Polynomial &first, const Polynomial &second) {
@@ -47,6 +49,7 @@ Polynomial operator*(const int k, const Polynomial &polynom) {
         result[i] = polynom.degrees[i];
         result[i] *= k;
     }
+    //todo memory-leak
     return Polynomial(polynom.min, polynom.max, result);
 }
 
@@ -75,6 +78,7 @@ int &Polynomial::operator[](int k) {
     return degrees[k];
 }
 
+//todo get O(n)
 double Polynomial::get(int k) {
     if (degrees == nullptr)
         return 0;
@@ -87,9 +91,11 @@ double Polynomial::get(int k) {
 
 Polynomial &Polynomial::operator/=(const int &k) {
 
+	//todo for_each
     for (int i = 0; i < max - min + 1; i++) {
         degrees[i] /= k;
     }
+    //todo make function for it
     int i = 0;
     bool not_null = false;
     while (!not_null) {
@@ -134,6 +140,7 @@ Polynomial operator-(const Polynomial &polynom) {
 }
 
 
+//todo * from *=
 Polynomial &Polynomial::operator*=(const Polynomial &polynom) {
     *this = *this * polynom;
     return *this;
