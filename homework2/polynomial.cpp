@@ -61,11 +61,18 @@ int Polynomial::operator[](int k) const {
 }
 
 int &Polynomial::operator[](int k) {
-    if (k < min)
-        min = k;
-    if (k > max)
-        max = k;
-    return degrees[k - min];
+    k++;
+    int *newdegrees = new int[k - min + 1];
+    for (int i = 0; i < max - min + 1; i++) {
+        newdegrees[i] = degrees[i];
+    }
+    for (int i = max - min + 1; i <= k; i++) {
+        newdegrees[i] = 0;
+    }
+    delete[] degrees;
+    degrees = newdegrees;
+    max = k - 1;
+    return degrees[k];
 }
 
 double Polynomial::get(int k) {
