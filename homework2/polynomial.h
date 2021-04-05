@@ -5,7 +5,7 @@
 #include<iostream>
 #include<math.h>
 
-//todo - and -=
+//fixed - and -=
 class Polynomial {
 private:
     int min = 0;
@@ -17,9 +17,9 @@ public:
 
     Polynomial(int min, int max, int coefficients[]);
 
-    ~Polynomial();
-
     Polynomial(const Polynomial &polynom);
+
+    Polynomial &zeropop();
 
     Polynomial &operator=(const Polynomial &polynom);
 
@@ -30,6 +30,8 @@ public:
     Polynomial &operator*=(const Polynomial &polynom);
 
     Polynomial &operator+=(const Polynomial &polynom);
+
+    Polynomial &operator-=(const Polynomial &polynom);
 
     Polynomial &operator/=(const int &k);
 
@@ -44,6 +46,8 @@ public:
     friend Polynomial operator*(const Polynomial &left, const Polynomial &right);
 
     friend Polynomial operator+(const Polynomial &left, const Polynomial &right);
+
+    friend Polynomial operator-(const Polynomial &left, const Polynomial &right);
 
     int operator[](int k) const;
 
