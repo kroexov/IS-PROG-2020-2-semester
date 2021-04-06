@@ -6,6 +6,8 @@
 #include<math.h>
 
 //fixed - and -=
+//todo destructor
+
 class Polynomial {
 private:
     int min = 0;

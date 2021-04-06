@@ -27,7 +27,6 @@ Polynomial::Polynomial(const Polynomial &polynom)
         : min(polynom.min), max(polynom.max), degrees(degreeupper(polynom.degrees, polynom.max - polynom.min + 1)) {}
 
 
-//fixed = doesnt work
 Polynomial& Polynomial::operator=(const Polynomial &polynom) {
     if (this == &polynom) {
         return *this;
@@ -89,7 +88,7 @@ int &Polynomial::operator[](int k) {
     return degrees[k];
 }
 
-//fixed get O(n)
+
 double Polynomial::get(int x) {
     int size = max - min;
     int size_ = max;
@@ -114,11 +113,10 @@ double Polynomial::get(int x) {
 
 Polynomial &Polynomial::operator/=(const int &k) {
 
-    //fixed for_each
+    //todo for_each
     for (int i = 0; i < max - min + 1; i++) {
         degrees[i] /= k;
     }
-    //fixed make function for it
     zeropop();
     return *this;
 }
@@ -168,6 +166,7 @@ Polynomial operator-(const Polynomial &polynom) {
 }
 
 
+//todo * from *=
 Polynomial &Polynomial::operator*=(const Polynomial &polynom) {
     *this = *this * polynom;
     return *this;
@@ -186,9 +185,12 @@ Polynomial operator*(const Polynomial &left, const Polynomial &right) {
             newdegrees[i + j - newmin] += left.degrees[i - left.min] * right.degrees[j - right.min];
         }
     }
+    //todo memory leak
+    //todo i will decrease your points if you keep deleting todo's
     return Polynomial(newmin, newmax, newdegrees);
 }
 
+//todo + from +=
 Polynomial &Polynomial::operator+=(const Polynomial &polynom) {
     *this = *this + polynom;
     return *this;
