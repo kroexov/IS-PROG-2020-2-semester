@@ -6,6 +6,37 @@
 #include <vector>
 #include <unordered_map>
 
+void stopsmaker(const pugi::xml_node object, std::multiset<std::string> &s){
+    std::string wrd;
+    std::string routes = object.child_value("routes");
+    char k = (routes.find(',') != std::string::npos) ? ',' : '.';
+    auto sstream = std::istringstream(routes);
+    while (getline(sstream, wrd, k))
+        s.insert(wrd);
+}
+
+void route_maker(const pugi::xml_node object,
+                 std::unordered_map<std::string, std::vector<std::pair<double, double>>> &paths) {
+    std::string temp = object.child("coordinates").text().as_string();
+    std::pair<double, double> v;
+    auto[a, b] = v;
+    auto sstream = std::istringstream(temp);
+    std::string line;
+    getline(sstream, line, ',');
+    a = stod(line);
+    getline(sstream, line, ',');
+    b = stod(line);
+
+    std::string wrd;
+    std::string routes = object.child_value("routes");
+    char k = (routes.find(',') != std::string::npos) ? ',' : '.';
+    std::vector<std::string> route;
+    sstream = std::istringstream(routes);
+    while (getline(sstream, wrd, k))
+        route.push_back(wrd);
+    for (const auto &r: route)
+        paths[r].push_back(std::make_pair(a, b));
+}
 
 void maxcount(const std::multiset<std::string> &s) {
     std::string res;
@@ -43,32 +74,32 @@ double hypotenuse(double x1, double x2, double y1, double y2) {
 
 void longest(const std::unordered_map<std::string, std::vector<std::pair<double, double>>> &paths) {
     std::unordered_map<std::string, std::pair<std::string, double>> maximum_route;
-    for (auto [x, y]: paths) {
+    for (auto[x, y]: paths) {
         std::pair<std::string, std::string> v;
-        auto [n,k] = v;
+        auto[n, k] = v;
         auto ss = std::istringstream(x);
         std::string line;
         getline(ss, n, ' ');
         getline(ss, k, ' ');
         double R;
-        auto [m, l] = y[0];
+        auto[m, l] = y[0];
         double k1 = m, k2 = l;
-        for (auto [m, l]: y) {
+        for (auto[m, l]: y) {
             if (k1 != m and k2 != l) {
                 R += hypotenuse(k1, k2, m, l);
                 k1 = m;
                 k2 = l;
             }
         }
-        auto [X,Y] = maximum_route[k];
+        auto[X, Y] = maximum_route[k];
         if (R > Y) {
             Y = R;
             X = n;
-            maximum_route[k]=std::make_pair(X,Y);
+            maximum_route[k] = std::make_pair(X, Y);
         }
     }
-    for (auto [x, y]: maximum_route) {
-        auto [n, k] = y;
+    for (auto[x, y]: maximum_route) {
+        auto[n, k] = y;
         std::cout << "Маршрут: " << n << std::endl << "Длина: " << k << std::endl;
     }
     std::cout << std::endl;
@@ -89,28 +120,13 @@ void Routes_with_the_most_stops(const pugi::xml_document &doc) {
     while (object) {
         std::string type = object.child("type_of_vehicle").text().as_string();
         if (type == "Автобус") {
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            auto sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                busstops.insert(wrd);
+            stopsmaker(object, busstops);
         }
         if (type == "Троллейбус") {
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            auto sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                trolstops.insert(wrd);
+            stopsmaker(object, trolstops);
         }
         if (type == "Трамвай") {
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            auto sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                tramstops.insert(wrd);
+            stopsmaker(object, tramstops);
         }
         object = object.next_sibling();
     }
@@ -163,67 +179,13 @@ void The_longest_routes(const pugi::xml_document &doc) {
     while (object) {
         std::string type = object.child("type_of_vehicle").text().as_string();
         if (type == "Автобус") {
-            std::string temp = object.child("coordinates").text().as_string();
-            std::pair<double, double> v;
-            auto [a,b] = v;
-            auto sstream = std::istringstream(temp);
-            std::string line;
-            getline(sstream, line, ',');
-            a = stod(line);
-            getline(sstream, line, ',');
-            b = stod(line);
-
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            std::vector<std::string> route;
-            sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                route.push_back(wrd);
-            for (const auto &r: route)
-                buspaths[r].push_back(std::make_pair(a,b));
+            route_maker(object, buspaths);
         }
         if (type == "Троллейбус") {
-            std::string temp = object.child("coordinates").text().as_string();
-            std::pair<double, double> v;
-            auto [a,b] = v;
-            auto sstream = std::istringstream(temp);
-            std::string line;
-            getline(sstream, line, ',');
-            a = stod(line);
-            getline(sstream, line, ',');
-            b = stod(line);
-
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            std::vector<std::string> route;
-            sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                route.push_back(wrd);
-            for (const auto &r: route)
-                trolpaths[r].push_back(std::make_pair(a,b));
+            route_maker(object, trolpaths);
         }
         if (type == "Трамвай") {
-            std::string temp = object.child("coordinates").text().as_string();
-            std::pair<double, double> v;
-            auto [a,b] = v;
-            auto sstream = std::istringstream(temp);
-            std::string line;
-            getline(sstream, line, ',');
-            a = stod(line);
-            getline(sstream, line, ',');
-            b = stod(line);
-
-            std::string wrd;
-            std::string routes = object.child_value("routes");
-            char k = (routes.find(',') != std::string::npos) ? ',' : '.';
-            std::vector<std::string> route;
-            sstream = std::istringstream(routes);
-            while (getline(sstream, wrd, k))
-                route.push_back(wrd);
-            for (const auto &r: route)
-                trampaths[r].push_back(std::make_pair(a,b));
+            route_maker(object, trampaths);
         }
         object = object.next_sibling();
     }
