@@ -1,4 +1,4 @@
-#include "pugixml.hpp"
+#include "pugixml-1.11/src/pugixml.hpp"
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -43,28 +43,34 @@ double hypotenuse(double x1, double x2, double y1, double y2) {
 
 void longest(const std::unordered_map<std::string, std::vector<std::pair<double, double>>> &paths) {
     std::unordered_map<std::string, std::pair<std::string, double>> maximum_route;
-    for (const auto &i: paths) {
+    for (auto [x, y]: paths) {
         std::pair<std::string, std::string> v;
-        auto ss = std::istringstream(i.first);
+        auto [n,k] = v;
+        auto ss = std::istringstream(x);
         std::string line;
-        getline(ss, v.first, ' ');
-        getline(ss, v.second, ' ');
+        getline(ss, n, ' ');
+        getline(ss, k, ' ');
         double R;
-        double k1 = i.second[0].first, k2 = i.second[0].second;
-        for (auto qw: i.second) {
-            if (k1 != qw.first and k2 != qw.second) {
-                R += hypotenuse(k1, k2, qw.first, qw.second);
-                k1 = qw.first;
-                k2 = qw.second;
+        auto [m, l] = y[0];
+        double k1 = m, k2 = l;
+        for (auto [m, l]: y) {
+            if (k1 != m and k2 != l) {
+                R += hypotenuse(k1, k2, m, l);
+                k1 = m;
+                k2 = l;
             }
         }
-        if (R > maximum_route[v.second].second) {
-            maximum_route[v.second].second = R;
-            maximum_route[v.second].first = v.first;
+        auto [X,Y] = maximum_route[k];
+        if (R > Y) {
+            Y = R;
+            X = n;
+            maximum_route[k]=std::make_pair(X,Y);
         }
     }
-    for (const auto &i: maximum_route)
-        std::cout << "Маршрут: " << i.second.first << std::endl << "Длина: " << i.second.second << std::endl;
+    for (auto [x, y]: maximum_route) {
+        auto [n, k] = y;
+        std::cout << "Маршрут: " << n << std::endl << "Длина: " << k << std::endl;
+    }
     std::cout << std::endl;
 }
 
@@ -159,12 +165,13 @@ void The_longest_routes(const pugi::xml_document &doc) {
         if (type == "Автобус") {
             std::string temp = object.child("coordinates").text().as_string();
             std::pair<double, double> v;
+            auto [a,b] = v;
             auto sstream = std::istringstream(temp);
             std::string line;
             getline(sstream, line, ',');
-            v.first = stod(line);
+            a = stod(line);
             getline(sstream, line, ',');
-            v.second = stod(line);
+            b = stod(line);
 
             std::string wrd;
             std::string routes = object.child_value("routes");
@@ -174,17 +181,18 @@ void The_longest_routes(const pugi::xml_document &doc) {
             while (getline(sstream, wrd, k))
                 route.push_back(wrd);
             for (const auto &r: route)
-                buspaths[r].push_back(v);
+                buspaths[r].push_back(std::make_pair(a,b));
         }
         if (type == "Троллейбус") {
             std::string temp = object.child("coordinates").text().as_string();
             std::pair<double, double> v;
+            auto [a,b] = v;
             auto sstream = std::istringstream(temp);
             std::string line;
             getline(sstream, line, ',');
-            v.first = stod(line);
+            a = stod(line);
             getline(sstream, line, ',');
-            v.second = stod(line);
+            b = stod(line);
 
             std::string wrd;
             std::string routes = object.child_value("routes");
@@ -194,17 +202,18 @@ void The_longest_routes(const pugi::xml_document &doc) {
             while (getline(sstream, wrd, k))
                 route.push_back(wrd);
             for (const auto &r: route)
-                trolpaths[r].push_back(v);
+                trolpaths[r].push_back(std::make_pair(a,b));
         }
         if (type == "Трамвай") {
             std::string temp = object.child("coordinates").text().as_string();
             std::pair<double, double> v;
+            auto [a,b] = v;
             auto sstream = std::istringstream(temp);
             std::string line;
             getline(sstream, line, ',');
-            v.first = stod(line);
+            a = stod(line);
             getline(sstream, line, ',');
-            v.second = stod(line);
+            b = stod(line);
 
             std::string wrd;
             std::string routes = object.child_value("routes");
@@ -214,7 +223,7 @@ void The_longest_routes(const pugi::xml_document &doc) {
             while (getline(sstream, wrd, k))
                 route.push_back(wrd);
             for (const auto &r: route)
-                trampaths[r].push_back(v);
+                trampaths[r].push_back(std::make_pair(a,b));
         }
         object = object.next_sibling();
     }
