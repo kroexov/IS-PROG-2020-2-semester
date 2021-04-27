@@ -1,3 +1,4 @@
+#include <functional>
 template<class iterator, class predicate>
 bool allOf(iterator first, iterator last, const predicate &condition) {
     while (first != last) {
@@ -42,23 +43,13 @@ bool oneOf(iterator first, iterator last, const predicate &condition) {
         return false;
 }
 
-//todo default template parameter
-template<class iterator, class criteria>
-bool isSorted(iterator first, iterator last, const criteria &condition) {
+//fixed default template parameter
+template<class iterator, class criteria = std::less<>>
+bool isSorted(iterator first, iterator last, const criteria condition = criteria()) {
     if (first == last)
         return true;
 
     for (iterator prev = first++; first != last && condition(*prev, *first); prev++, first++); //empty cycle but ok
-
-    return first == last;
-}
-
-template<class iterator>
-bool isSorted(iterator first, iterator last) {
-    if (first == last)
-        return true;
-
-    for (iterator prev = first++; first != last && (*prev < *first); prev++, first++); //empty cycle but still ok
 
     return first == last;
 }
