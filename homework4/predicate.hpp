@@ -42,6 +42,7 @@ bool oneOf(iterator first, iterator last, const predicate &condition) {
         return false;
 }
 
+//todo default template parameter
 template<class iterator, class criteria>
 bool isSorted(iterator first, iterator last, const criteria &condition) {
     if (first == last)
