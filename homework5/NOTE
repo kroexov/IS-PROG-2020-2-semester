@@ -1,0 +1,17 @@
+Pulling https://github.com/kroexov/IS-2020-prog-2-sem/homework5
+Pull finished
+It's compiled
+out of range
+1
+out of range
+Everything is ok
+
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'void CircularBuffer<Type>::changeCapacity(int) [with Type = int]':
+main.cpp:187:23:   required from here
+CircularBuffer.hpp:134:27: warning: comparison of integer expressions of different signedness: 'int' and 'size_t' {aka 'unsigned int'} [-Wsign-compare]
+  134 |         for (int i = 0; i < capacity % cap; i++) {
+      |                         ~~^~~~~~~~~~~~~~~~
+
+
+
