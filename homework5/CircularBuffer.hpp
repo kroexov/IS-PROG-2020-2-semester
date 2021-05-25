@@ -2,7 +2,7 @@
 #define INC_5_CIRCULARBUFFER_HPP
 
 
-//todo warning
+//fixed warning
 template<class Type>
 class CircularBuffer {
 private:
@@ -36,15 +36,19 @@ private:
         reference operator*() {
             return *cur;
         }
+
         difference_type operator-(myIterator someIterator) {
             return cur - someIterator.cur;
         }
+
         myIterator operator-(int n) {
             return myIterator(cur - n);
         }
+
         myIterator operator+(int n) {
             return myIterator(cur + n);
         }
+
         bool operator!=(myIterator it) {
             return cur != it.cur;
         }
@@ -82,38 +86,39 @@ public:
         buffer[_end] = data;
     }
 
-    //todo return 0 if empty
+    //fixed return 0 if empty
     Type first() {
-        if (size > 0) {
+        if (size != 0) {
             return buffer[_begin];
-        } else
-            return 0;
+        }
+        return 0;
     }
 
     Type last() {
-        if (size > 0) {
+        if (size != 0) {
             return buffer[_end];
-        } else
-            return 0;
+        }
+        return 0;
     }
 
     const Type &operator[](unsigned index) const {
         if (index > size - 1)
-            throw std::out_of_range("out of range");
+            throw std::out_of_range("out of range, index is more than size");
         if (size > 0)
             return buffer[(_begin + index) % capacity];
         else
-            throw std::out_of_range("out of range");
+            throw std::out_of_range("out of range, size is less than 0");
 
     }
-    //todo more information in exceptions
+
+    //fixed more information in exceptions
     Type &operator[](unsigned index) {
         if (index > size - 1)
-            throw std::out_of_range("out of range");
+            throw std::out_of_range("out of range, index is more than size");
         if (size > 0)
             return buffer[(_begin + index) % capacity];
         else
-            throw std::out_of_range("out of range");
+            throw std::out_of_range("out of range, size is less than 0");
     }
 
     void delFirst() {
@@ -134,11 +139,11 @@ public:
 
     void changeCapacity(int cap) {
         Type *Newbuffer = new Type[cap];
-        for (int i = 0; i < capacity % cap; i++) {
+        for (size_t i = 0; i < capacity % cap; i++) {
             Newbuffer[i] = buffer[i];
         }
-        //todo delete[]
-        delete buffer;
+        //fixed delete[]
+        delete[] buffer;
         buffer = Newbuffer;
         capacity = cap;
     }
@@ -152,7 +157,6 @@ public:
     }
 
 };
-
 
 
 #endif //INC_5_CIRCULARBUFFER_HPP
