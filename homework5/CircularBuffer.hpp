@@ -2,6 +2,7 @@
 #define INC_5_CIRCULARBUFFER_HPP
 
 
+//todo warning
 template<class Type>
 class CircularBuffer {
 private:
@@ -64,6 +65,7 @@ public:
         buffer = new Type[capacity];
     };
 
+    //todo O(1)
     void addFirst(Type data) {
         for (int i=size; i > 0; i--)
             buffer[i] = buffer[i - 1];
@@ -80,6 +82,7 @@ public:
         buffer[_end] = data;
     }
 
+    //todo return 0 if empty
     Type first() {
         if (size > 0) {
             return buffer[_begin];
@@ -103,7 +106,7 @@ public:
             throw std::out_of_range("out of range");
 
     }
-
+    //todo more information in exceptions
     Type &operator[](unsigned index) {
         if (index > size - 1)
             throw std::out_of_range("out of range");
@@ -134,6 +137,7 @@ public:
         for (int i = 0; i < capacity % cap; i++) {
             Newbuffer[i] = buffer[i];
         }
+        //todo delete[]
         delete buffer;
         buffer = Newbuffer;
         capacity = cap;
