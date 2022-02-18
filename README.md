@@ -1,2 +1,2 @@
 # IS-PROG-2020-2-semester
-This is my educational repository for 1st grade ITMO c++ object-oriented programming course. Here you can watch how I worked with C++, but this is quite old code and now I would probably make it better. To get more actual examples of my OOP code, please check the C# programming repository :)
+This is my academic repository for the 1st year of ITMO for C++ object-oriented programming course. Here you can see how Ш worked with C++/OOP. However, it is pretty old code, so now I would have made it better. Please check my C# programming repository to see more up-to date examples of my OOP code.
